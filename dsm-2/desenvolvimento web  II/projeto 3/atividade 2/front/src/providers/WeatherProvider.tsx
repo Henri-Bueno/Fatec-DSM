@@ -9,31 +9,39 @@ interface WeatherProviderProps {
 
 export default function WeatherProvider({ children }: WeatherProviderProps) {
   const [cities, setCities] = useState<City[]>([]);
-  const [cityLoading, setCityLoading] = useState(false);
-  const [foreCast, setForeCast] = useState<Forecast | null>(null)
-  const [foreCastLoading, setForeCastLoading] = useState(false);
+  const [foreCast, setForeCast] = useState<Forecast | null>(null);
+  const [error, setError] = useState("")
+  const [loadingMessage, setLoadingMessage] = useState("")
 
   async function findCities(name: string) {
     try {
-      setCityLoading(true);
+      setLoadingMessage("Buscando cidades... ")
+      setCities([])
+      setForeCast(null)
+
       const foundCities = await searchCities(name);
       setCities(foundCities);
-    } catch (error) {
-      console.log(error.message);
+    } catch (e) {
+      if(e instanceof Error){
+      setError(e.message)
+    }
     } finally {
-      setCityLoading(false);
+      setLoadingMessage("");
     }
   }
 
   async function cityForecast(id: number) {
     try {
-      setForeCastLoading(true);
+      setLoadingMessage("Buscando previsão... ")
+
       const lista = await getForecast(id);
       setForeCast(lista)
-    } catch (e: any) {
-      console.log(e.message);
+    } catch (e) {
+      if(e instanceof Error){
+      setError(e.message)
+    }
     }finally {
-      setForeCastLoading(false);
+      setLoadingMessage("")
     }
   }
 
@@ -41,12 +49,11 @@ export default function WeatherProvider({ children }: WeatherProviderProps) {
     <weatherContext.Provider
       value={{
         cities,
-        cityLoading,
-        setCityLoading,
         findCities,
         cityForecast,
         foreCast,
-        foreCastLoading
+        error,
+        loadingMessage
       }}
     >
       {children}

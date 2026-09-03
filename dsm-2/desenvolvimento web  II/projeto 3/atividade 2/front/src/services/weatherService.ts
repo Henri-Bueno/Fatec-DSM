@@ -16,7 +16,7 @@ export async function searchCities(name: string) {
 }
 
 export async function getForecast(id:number) {
-    const response = await fetch (`${API_URL}/clima/previsao${id}`)
+    const response = await fetch (`${API_URL}/clima/previsao/${id}`)
 
     if (!response.ok) {
         const error:ApiErrorResponse = await response.json();

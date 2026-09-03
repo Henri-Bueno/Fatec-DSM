@@ -1,22 +1,19 @@
 import { useState, type KeyboardEvent } from "react";
 import useWeather from "../hooks/useWeather";
-import ForecastCard from "./ForeCastCard";
+import ForecastCard from "./ForecastCard"
+import CityList from "./CityList";
 
 export default function WeatherSearch() {
   const [cityName, setCityName] = useState("");
 
-  const { cities, findCities, cityLoading, cityForecast, foreCast } = useWeather();
+  const { cities, findCities, foreCast, error, loadingMessage } = useWeather();
 
   async function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
+      if(cityName.trim()){
       findCities(cityName.trim());
     }
-  }
-
-  let message = "";
-
-  if (cityLoading) {
-    message = "Buscando cidades...";
+    }
   }
 
   return (
@@ -28,21 +25,11 @@ export default function WeatherSearch() {
         value={cityName}
         onChange={(e) => setCityName(e.target.value)}
         onKeyDown={handleKeyDown}
+        disabled={loadingMessage !== ""}
       />
-      <p className="message">{message}</p>
-      <div className="city-list">
-        {cities.map(function (city) {
-          return (
-            <button
-              className="city-option"
-              key={city.id}
-              onClick={() => cityForecast(city.id)}
-            >
-              {city.nome} - {city.estado}
-            </button>
-          );
-        })}
-      </div>
+      { error && <p className="error message">{error}</p>}
+      { loadingMessage && <p className="message">{loadingMessage}</p>}
+      {cities.length > 0 && <CityList />}
       { foreCast && <ForecastCard/>}
     </>
   );
