@@ -36,4 +36,3 @@ const p3: Par<number, string> = {
     valor: "Maria",
 }; 
 */
-

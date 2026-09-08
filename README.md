@@ -4,6 +4,7 @@ Arquivo acadêmico da graduação em Desenvolvimento de Software Multiplataforma
 
 ## Estrutura do repositório
 
+
 Semestres com conteúdo disponível:
 
 - [DSM 1](./dsm-1)
