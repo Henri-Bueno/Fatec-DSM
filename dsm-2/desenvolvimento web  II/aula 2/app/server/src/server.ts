@@ -1,8 +1,6 @@
-import {app} from "./app";
+import { app } from "./app";
 
-function main(){
-    const port = 3000;
-    app.listen(port, () => {console.log(`Rodando em http://localhost:${port}`);});
-}
-
-main();
+const port = Number(process.env.PORT);
+app.listen(port, () => {
+  console.log(`API disponível na porta ${port}`);
+});
