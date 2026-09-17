@@ -13,11 +13,9 @@ As disciplinas contêm aulas, exercícios, atividades e aplicações conforme a 
 
 ### Desempenho acadêmico
 
-Não foram identificadas notas acadêmicas individuais ou média final do semestre nos arquivos disponíveis.
-
 | Disciplina | Nota |
 | --- | --- |
-| algoritimo | A definir |
-| desenvolvimento-web | A definir |
+| algoritimo | 9,8 |
+| desenvolvimento-web | 9,0 |
 
 [← Voltar para Fatec DSM](../README.md)
