@@ -7,6 +7,8 @@ import { StudentsService } from "./modules/students/students.service";
 import { studentsRoutes } from "./modules/students/students.routes";
 import { coursesRoutes } from "./modules/courses/courses.routes";
 import { enrollmentsRoutes } from "./modules/enrollments/enrollments.routes";
+import { CoursesService } from "./modules/courses/courses.service";
+import { PgCourseRepository } from "./modules/courses/courses.repository";
 
 export function createApp(db: Database) {
   const app = express();
@@ -18,12 +20,14 @@ export function createApp(db: Database) {
 
   // Students recebe suas dependências na composição da aplicação.
   const studentRepository = new PgStudentRepository(db);
+  const courseRepository = new PgCourseRepository(db);
 
   const studentsService = new StudentsService(studentRepository);
+  const courseService = new CoursesService(courseRepository);
 
   // Encaminha as requisições para as rotas de cada recurso.
   app.use("/api/students", studentsRoutes(studentsService));
-  app.use("/api/courses", coursesRoutes());
+  app.use("/api/courses", coursesRoutes(courseService));
   app.use("/api/enrollments", enrollmentsRoutes());
 
   app.use((_req, _res, next) => {
