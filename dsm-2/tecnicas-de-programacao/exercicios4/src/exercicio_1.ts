@@ -1,43 +1,18 @@
-interface Conta {
-    depositar(valor: number): void
-    sacar(valor: number): void
-    consultar(): number
+type Operacao = (a: number, b: number) => number;
+function somar(a: number, b: number): number {
+return a + b;
 }
-
-class ContaCorrente implements Conta{
-    constructor(private saldo: number){}
-
-    depositar(valor: number): void {
-        this.ValidarValor(valor)
-        this.saldo += valor
-    }
-
-    sacar(valor: number): void {
-        this.ValidarValor(valor)
-        if(valor > this.saldo){
-            throw new Error("Saldo insuficiente")
-        }
-        this.saldo -= valor
-    }
-
-    consultar(): number {
-        return this.saldo
-    }
-
-    private ValidarValor(valor: number):void {
-        if(valor <= 0){
-            throw new Error("O valor deve ser maior que zero")
-        }
-    }
+function multiplicar(a: number, b: number): number {
+return a * b;
 }
-
-let nova = new ContaCorrente(0)
-
-try{
-    nova.depositar(100)
-    nova.sacar(20)
-    console.log(nova.consultar())
-    nova.sacar(85)
-}catch (erro: any){
-    console.log(erro.message)
+function operar(valores: any[], operacao: Operacao): number {
+    let total:any = valores[0];
+for (let i = 1; i < valores.length; i++) {
+total = operacao(total, valores[i]);
 }
+return total;
+}
+const numeros = [4, 8, 5, 2];
+console.log(`Somatório: ${operar(numeros, somar)}`);
+console.log(`Produto: ${operar(numeros, multiplicar)}`);
+console.log(`Maior valor: ${operar(numeros, (a:number,b:number)=>a > b?a:b )}`);
